@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Huda Quran Academy - Student Panel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    /* Base styles */
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(90deg, rgba(18, 18, 18, 0.70) 25%, rgba(18, 18, 18, 0.5) 50%, rgba(18, 18, 18, 0.6) 100%), url('images/13.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: -1;
+    }
+    
+    .arabic {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+    }
+    
+    .header {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+      height: 60px;
+    }
+    
+    /* Text size classes */
+    .text-logo-arabic {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    
+    .text-logo-english {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .text-heading {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    
+    .text-subheading {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    .text-button {
+      font-size: 0.875rem;
+    }
+    
+    .text-nav {
+      font-size: 0.75rem;
+    }
+    
+    /* Responsive font sizes */
+    @media (min-width: 480px) {
+      html { font-size: 16px; }
+      .text-logo-arabic { font-size: 1.25rem; }
+      .text-logo-english { font-size: 0.90rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.125rem; }
+      .text-button { font-size: 1rem; }
+      .text-nav { font-size: 0.875rem; }
+    }
+    
+    @media (min-width: 768px) {
+      html { font-size: 18px; }
+      .text-logo-arabic { font-size: 1.75rem; }
+      .text-logo-english { font-size: 1.25rem; }
+      .text-heading { font-size: 2rem; }
+      .text-subheading { font-size: 1.25rem; }
+      .text-button { font-size: 1.125rem; }
+      .text-nav { font-size: 1rem; }
+    }
+    
+    @media (min-width: 1024px) {
+      html { font-size: 20px; }
+      .text-logo-arabic { font-size: 2rem; }
+      .text-logo-english { font-size: 1.5rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.375rem; }
+      .text-button { font-size: 1.25rem; }
+      .text-nav { font-size: 1.125rem; }
+    }
+    
+    /* Panel Styles */
+    .panel-section {
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    
+    /* Desktop Layout */
+    @media (min-width: 1024px) {
+      .desktop-layout {
+        display: grid;
+        grid-template-columns: 70% 29.5%;
+        grid-template-rows: 69% 29.5%;
+        height: calc(100vh); /* Reduced main section size */
+        padding-top: 90px;
+        gap: 10px;
+        padding-bottom: 10Px;
+        box-sizing: border-box;
+      }
+      
+      .conference-section {
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .messages-section {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .files-section {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+      }
+      
+      .conference-content {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .messages-content {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      
+      .footer {
+        display: none;
+      }
+      
+      .message-input {
+        margin-top: auto;
+      }
+    }
+    
+    /* Mobile Layout */
+    @media (max-width: 1023px) {
+      .desktop-layout {
+        display: none;
+      }
+      
+      .mobile-tab {
+        display: none;
+        height: calc(100vh - 90px);
+        overflow-y: auto;
+        padding: 10px;
+      }
+      
+      .mobile-tab.active {
+        display: block;
+      }
+      
+      .mobile-tabs {
+        padding-top: 50px;
+        padding-bottom: 40px;
+      }
+      
+      .mobile-content {
+        height: calc(100% - 3rem);
+        position: relative;
+      }
+      
+      .mobile-messages-container {
+        height: calc(100% - 3.5rem);
+        overflow-y: auto;
+      }
+      
+      .mobile-message-input {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 20px);
+      }
+    }
+    
+    /* Footer styling */
+    .footer {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-top: 3px solid rgba(255, 255, 255, 0.1);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      z-index: 10;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      justify-items: center;
+      gap: 0.5rem;
+      height: 100%;
+    }
+    
+    .tab-button {
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+    
+    .tab-button.active {
+      color: #d4af37;
+      transform: translateY(-3px);
+    }
+    
+    .tab-button i {
+      margin-bottom: 0.1rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="header fixed w-full top-0 z-50">
+    <div class="container mx-auto px-4 w-full flex items-center justify-center">
+      <div class="flex items-center space-x-4">
+        <span class="text-white arabic text-logo-arabic">الهدى</span>
+        <span class="text-white text-logo-english">Al-Huda Quran Academy</span>
+      </div>     
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- Desktop Layout - Only shown on desktop -->
+    <div id="desktopView" class="desktop-layout">
+      <!-- Conference Section -->
+      <div class="conference-section panel-section p-4">
+        <h2 class="text-white text-heading mb-4">Live Session</h2>
+        <div class="conference-content bg-black bg-opacity-50 rounded-lg">
+          <p class="text-white text-subheading">Jitsi Meet Conference will load here</p>
+        </div>
+      </div>
+      
+      <!-- Messages Section -->
+      <div class="messages-section panel-section p-4">
+        <h2 class="text-white text-heading mb-4">Messages</h2>
+        <div class="messages-content">
+          <!-- Message history would go here -->
+        </div>
+        <div class="message-input mt-4">
+          <input type="text" class="w-full p-2 rounded bg-black bg-opacity-30 text-white" placeholder="Type your message...">
+        </div>
+      </div>
+      
+      <!-- Files Section -->
+      <div class="files-section panel-section p-4">
+        <h2 class="text-white text-heading mb-4">Learning Materials</h2>
+        <div class="grid grid-cols-3 gap-4 h-4/5 overflow-y-auto">
+          <!-- Files would be listed here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Layout - Only shown on mobile -->
+    <div id="mobileView" class="mobile-tabs">
+      <!-- Conference Tab -->
+      <div id="conferenceTab" class="mobile-tab active panel-section">
+        <h2 class="text-white text-heading mb-4">Live Session</h2>
+        <div class="mobile-content bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
+          <p class="text-white text-subheading">Jitsi Meet Conference will load here</p>
+        </div>
+      </div>
+      
+      <!-- Messages Tab -->
+      <div id="messagesTab" class="mobile-tab panel-section">
+        <h2 class="text-white text-heading mb-4">Messages</h2>
+        <div class="mobile-content">
+          <div class="mobile-messages-container">
+            <!-- Message history would go here -->
+          </div>
+          <div class="mobile-message-input">
+            <input type="text" class="w-full p-2 rounded bg-black bg-opacity-30 text-white" placeholder="Type your message...">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Files Tab -->
+      <div id="filesTab" class="mobile-tab panel-section">
+        <h2 class="text-white text-heading mb-4">Learning Materials</h2>
+        <div class="mobile-content overflow-y-auto">
+          <div class="grid grid-cols-1 gap-4">
+            <!-- Files would be listed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer - Used for mobile tabs -->
+  <footer id="tabFooter" class="footer text-white">
+    <div class="container mx-auto px-4 h-full">
+      <div class="footer-grid">
+        <!-- Conference Tab Button -->
+        <div class="w-full text-center">
+          <a id="conferenceTabBtn" href="#" class="tab-button active text-nav">
+            <span>Session</span>
+          </a>
+        </div>
+        
+        <!-- Messages Tab Button -->
+        <div class="w-full text-center">
+          <a id="messagesTabBtn" href="#" class="tab-button text-nav">
+            <span>Messages</span>
+          </a>
+        </div>
+        
+        <!-- Files Tab Button -->
+        <div class="w-full text-center">
+          <a id="filesTabBtn" href="#" class="tab-button text-nav">
+            <span>Materials</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check screen size and show appropriate layout
+    function checkScreenSize() {
+      if (window.innerWidth >= 1024) {
+        document.getElementById('desktopView').style.display = 'grid';
+        document.getElementById('mobileView').style.display = 'none';
+        document.getElementById('tabFooter').style.display = 'none';
+      } else {
+        document.getElementById('desktopView').style.display = 'none';
+        document.getElementById('mobileView').style.display = 'block';
+        document.getElementById('tabFooter').style.display = 'block';
+        // Activate first tab by default
+        document.getElementById('conferenceTab').classList.add('active');
+        document.getElementById('conferenceTabBtn').classList.add('active');
+      }
+    }
+    
+    // Mobile tab switching
+    function setupMobileTabs() {
+      const tabs = ['conference', 'messages', 'files'];
+      
+      tabs.forEach(tab => {
+        const btn = document.getElementById(`${tab}TabBtn`);
+        const content = document.getElementById(`${tab}Tab`);
+        
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Hide all tabs
+          document.querySelectorAll('.mobile-tab').forEach(t => {
+            t.classList.remove('active');
+          });
+          
+          // Deactivate all buttons
+          document.querySelectorAll('.tab-button').forEach(b => {
+            b.classList.remove('active');
+          });
+          
+          // Show selected tab
+          content.classList.add('active');
+          btn.classList.add('active');
+        });
+      });
+    }
+    
+    // Initialize
+    window.addEventListener('load', () => {
+      checkScreenSize();
+      setupMobileTabs();
+    });
+    
+    window.addEventListener('resize', checkScreenSize);
+  </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!-- student-management.html -->
+<div class="container">
+  <h2>Student Management</h2>
+  
+  <!-- Add New Student Form -->
+  <div class="card mb-4">
+    <div class="card-header">Add New Student</div>
+    <div class="card-body">
+      <form id="addStudentForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" class="form-control" name="fullName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" class="form-control" name="username" required>
+            </div>
+          </div>
+        </div>
+        <!-- Additional fields here -->
+        <button type="submit" class="btn btn-primary">Add Student</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Students List -->
+  <div class="card">
+    <div class="card-header">Current Students</div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Join Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentsList">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fetch and display students
+async function loadStudents() {
+  const response = await fetch('/api/students');
+  const data = await response.json();
+  
+  const tableBody = document.getElementById('studentsList');
+  tableBody.innerHTML = data.data.students.map(student => `
+    <tr>
+      <td>${student.fullName}</td>
+      <td>${student.username}</td>
+      <td>${new Date(student.joinDate).toLocaleDateString()}</td>
+      <td>
+        <button class="btn btn-sm btn-info edit-btn" data-id="${student._id}">Edit</button>
+        <button class="btn btn-sm btn-danger delete-btn" data-id="${student._id}">Remove</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Handle form submission
+document.getElementById('addStudentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  
+  try {
+    const response = await fetch('/api/students', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(formData))
+    });
+    
+    if (response.ok) {
+      loadStudents();
+      e.target.reset();
+    }
+  } catch (err) {
+    console.error('Error adding student:', err);
+  }
+});
+
+// Initial load
+document.addEventListener('DOMContentLoaded', loadStudents);
+</script>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Huda Quran Academy - Teacher Panel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    /* Reuse all base styles from student panel */
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(90deg, rgba(18, 18, 18, 0.70) 25%, rgba(18, 18, 18, 0.5) 50%, rgba(18, 18, 18, 0.6) 100%), url('images/13.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: -1;
+    }
+    
+    .arabic {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+    }
+    
+    .header {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+      height: 60px;
+    }
+    
+    /* Text size classes */
+    .text-logo-arabic {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    
+    .text-logo-english {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .text-heading {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    
+    .text-subheading {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    .text-button {
+      font-size: 0.875rem;
+    }
+    
+    .text-nav {
+      font-size: 0.75rem;
+    }
+    
+    /* Responsive font sizes */
+    @media (min-width: 480px) {
+      html { font-size: 16px; }
+      .text-logo-arabic { font-size: 1.25rem; }
+      .text-logo-english { font-size: 0.90rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.125rem; }
+      .text-button { font-size: 1rem; }
+      .text-nav { font-size: 0.875rem; }
+    }
+    
+    @media (min-width: 768px) {
+      html { font-size: 18px; }
+      .text-logo-arabic { font-size: 1.75rem; }
+      .text-logo-english { font-size: 1.25rem; }
+      .text-heading { font-size: 2rem; }
+      .text-subheading { font-size: 1.25rem; }
+      .text-button { font-size: 1.125rem; }
+      .text-nav { font-size: 1rem; }
+    }
+    
+    @media (min-width: 1024px) {
+      html { font-size: 20px; }
+      .text-logo-arabic { font-size: 2rem; }
+      .text-logo-english { font-size: 1.5rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.375rem; }
+      .text-button { font-size: 1.25rem; }
+      .text-nav { font-size: 1.125rem; }
+    }
+    
+    /* Panel Styles */
+    .panel-section {
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: auto;
+    }
+    
+    /* Desktop Layout - Modified for 4 sections */
+    @media (min-width: 1024px) {
+      .desktop-layout {
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        grid-template-rows: 70% 30%;
+        height: calc(100vh);
+        padding-top: 90px;
+        gap: 10px;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+      }
+      
+      /* Left Panel - Students List */
+      .students-section {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Middle Panel - Jitsi Meet */
+      .conference-section {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Right Panel - Messages */
+      .messages-section {
+        grid-column: 3;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Bottom Panel - Files */
+      .files-section {
+        grid-column: 2 / span 2;
+        grid-row: 2;
+      }
+      
+      .conference-content {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .messages-content {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      
+      .students-content {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      
+      .footer {
+        display: none;
+      }
+    }
+    
+    /* Mobile Layout */
+    @media (max-width: 1023px) {
+      .desktop-layout {
+        display: none;
+      }
+      
+      .mobile-tab {
+        display: none;
+        height: calc(100vh - 90px);
+        overflow-y: auto;
+        padding: 10px;
+      }
+      
+      .mobile-tab.active {
+        display: block;
+      }
+      
+      .mobile-tabs {
+        padding-top: 50px;
+        padding-bottom: 40px;
+      }
+      
+      .mobile-content {
+        height: calc(100% - 3rem);
+        position: relative;
+      }
+      
+      .mobile-messages-container {
+        height: calc(100% - 3.5rem);
+        overflow-y: auto;
+      }
+      
+      .mobile-message-input {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 20px);
+      }
+      
+      .mobile-students-list {
+        height: 100%;
+        overflow-y: auto;
+      }
+    }
+    
+    /* Footer styling */
+    .footer {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-top: 3px solid rgba(255, 255, 255, 0.1);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      z-index: 10;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      justify-items: center;
+      gap: 0.5rem;
+      height: 100%;
+    }
+    
+    .tab-button {
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+    
+    .tab-button.active {
+      color: #d4af37;
+      transform: translateY(-3px);
+    }
+    
+    .tab-button i {
+      margin-bottom: 0.1rem;
+    }
+    
+    /* Student list specific styles */
+    .student-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .student-item:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .student-item.selected {
+      background-color: rgba(212, 175, 55, 0.2);
+    }
+    
+    .online-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #10b981;
+      margin-right: 8px;
+    }
+    
+    .offline-text {
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+    
+    /* File sharing specific styles */
+    .file-item {
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .file-item.shared {
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    
+    .share-arrow {
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    
+    .share-arrow:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    /* New styles for student selection */
+    .student-selection-dropdown {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 99999;
+      display: none;
+    }
+    
+    .student-selection-item {
+      padding: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    
+    .student-selection-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .student-selection-item.selected {
+      background-color: rgba(212, 175, 55, 0.3);
+    }
+    
+    .student-selection-checkbox {
+      margin-right: 0.5rem;
+    }
+    
+    .message-input-container {
+      position: relative;
+    }
+    
+    .message-buttons {
+      display: flex;
+    }
+    
+    .send-button {
+      background-color: rgba(212, 175, 55, 0.5);
+      color: white;
+      padding: 0 1rem;
+      border-radius: 0 0.25rem 0.25rem 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .send-button:hover {
+      background-color: rgba(212, 175, 55, 0.7);
+    }
+    
+    .select-button {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
+      padding: 0 0.5rem;
+      border-radius: 0;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .select-button:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .student-selection-dropdown {
+           
+      background-color: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      min-width: 150px;
+      max-height: 300px;
+      z-index: 99999; /* Ensure it's above all others */
+      display: none;
+    }
+    
+    /* Desktop specific dropdown positioning */
+    @media (min-width: 1024px) {
+      .message-student-dropdown {
+        bottom: 100%;
+        left: 0;
+        position: sticky;
+        top: 0;
+      }
+      .file-student-dropdown {
+        position: relative;
+        bottom: 0%;
+        right: 0;
+        
+      }
+    }
+    
+    /* Mobile specific dropdown positioning */
+    @media (max-width: 1023px) {
+      .message-student-dropdown {
+        position: sticky;
+        top: 0;
+        left: 0;
+        
+      }
+      .file-student-dropdown {
+        position: relative;
+        bottom: 0%;
+        right: 0;
+      }
+    }
+    
+    .student-selection-item {
+      padding: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      border-radius: 0.25rem;
+    }
+    
+    .student-selection-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .student-selection-item.selected {
+      background-color: rgba(212, 175, 55, 0.3);
+    }
+    
+    .student-selection-checkbox {
+      margin-right: 0.75rem;
+    }
+    
+    /* Ensure containers are positioned relative for dropdowns */
+    .message-input-container {
+      position: absolute;
+    }
+    
+    .file-item {
+      position: relative;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="header fixed w-full top-0 z-50">
+    <div class="container mx-auto px-4 w-full flex items-center justify-between">
+      <a href="teacher_landing.html" class="text-white">
+        <i class="ri-arrow-left-line text-xl"></i>
+      </a>
+      <div class="flex items-center space-x-4">
+        <span class="text-white arabic text-logo-arabic">الهدى</span>
+        <span class="text-white text-logo-english">Al-Huda Quran Academy</span>
+      </div>
+      <div class="w-6"></div> <!-- Spacer for balance -->
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- Desktop Layout - Only shown on desktop -->
+    <div id="desktopView" class="desktop-layout">
+      <!-- Students List Section -->
+      <div class="students-section panel-section p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Students</h2>
+          <div id="currentStudentName" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="students-content">
+          <div id="studentsList" class="space-y-1">
+            <!-- Student items will be added here dynamically -->
+            <!-- Example student item:-->
+            <div class="student-item selected">
+              <div class="flex items-center">
+                <span class="online-dot"></span>
+                <span class="text-white">Ahmed Ali</span>
+              </div>
+            </div>
+            <div class="student-item">
+              <div class="flex items-center">
+                <span class="online-dot"></span>
+                <span class="text-white">Fatima Khan</span>
+              </div>
+            </div>
+            <div class="student-item">
+              <div class="flex flex-col">
+                <span class="text-white">Zainab Mahmood</span>
+                <span class="offline-text">Last seen: 2h ago</span>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      <!-- Conference Section -->
+      <div class="conference-section panel-section p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Live Session</h2>
+          <div id="conferenceCurrentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="conference-content bg-black bg-opacity-50 rounded-lg">
+          <p class="text-white text-subheading">Jitsi Meet Conference will load here</p>
+          <div id="sessionTimer" class="absolute bottom-4 right-4 text-white bg-black bg-opacity-50 px-2 py-1 rounded text-sm hidden">
+            Session: <span id="timerDisplay">00:00</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Messages Section -->
+      <div class="messages-section panel-section p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Messages</h2>
+          <div id="currentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="messages-content">
+          <div id="messageHistory" class="space-y-2">
+            <!-- Message history will appear here -->
+          </div>
+        </div>
+        <div class="message-input mt-4 flex">
+          <input type="text" id="messageInput" class="w-full p-2 rounded-l bg-black bg-opacity-30 text-white" placeholder="Type your message...">
+          <div class="message-buttons flex">
+            <button id="messageSelectBtn" class="select-button">
+              <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <button id="messageSendBtn" class="send-button">
+              <i class="ri-send-plane-line"></i>
+            </button>
+          </div>
+          <div id="messageStudentDropdown" class="student-selection-dropdown">
+            <!-- Student selection dropdown content will be added here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Files Section -->
+      <div class="files-section panel-section p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Files</h2>
+          <div id="filesCurrentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 h-4/5 overflow-y-auto">
+          <div class="file-item shared">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Quran Lesson 1.pdf</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+              <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Homework 2.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+              <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Dua 1.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Dua 2.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+          <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">dua 3.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+              <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+          <!-- More files would be listed here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Layout - Only shown on mobile -->
+    <div id="mobileView" class="mobile-tabs">
+      <!-- Students Tab -->
+      <div id="studentsTab" class="mobile-tab panel-section">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Students</h2>
+          <div id="mobileCurrentStudentName" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="mobile-content">
+          <div id="mobileStudentsList" class="mobile-students-list">
+            <!-- Student items will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Conference Tab -->
+      <div id="conferenceTab" class="mobile-tab active panel-section">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Live Session</h2>
+          <div id="mobileConferenceCurrentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="mobile-content bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
+          <p class="text-white text-subheading">Jitsi Meet Conference will load here</p>
+        </div>
+      </div>
+      
+      <!-- Messages Tab -->
+      <div id="messagesTab" class="mobile-tab panel-section">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Messages</h2>
+          <div id="mobileCurrentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="mobile-content">
+          <div class="mobile-messages-container">
+            <div id="mobileMessageHistory" class="space-y-2">
+              <!-- Message history will appear here -->
+            </div>
+          </div>
+          <div class="mobile-message-input flex">
+            <input type="text" id="mobileMessageInput" class="w-full p-2 rounded-l bg-black bg-opacity-30 text-white" placeholder="Type your message...">
+            <div class="message-buttons flex">
+              <button id="mobileMessageSelectBtn" class="select-button">
+                <i class="ri-arrow-down-s-line"></i>
+              </button>
+              <button id="mobileMessageSendBtn" class="send-button">
+                <i class="ri-send-plane-line"></i>
+              </button>
+            </div>
+            <div id="mobileMessageStudentDropdown" class="student-selection-dropdown">
+              <!-- Student selection dropdown content will be added here -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Files Tab -->
+      <div id="filesTab" class="mobile-tab panel-section">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-white text-heading">Files</h2>
+          <div id="mobileFilesCurrentStudent" class="text-white font-medium">Ahmed Ali</div>
+        </div>
+        <div class="mobile-content overflow-y-auto">
+          <div class="grid grid-cols-1 gap-2">
+            <div class="file-item shared">
+              <div class="flex items-center">
+                <i class="ri-file-text-line text-white mr-2"></i>
+                <span class="text-white">Quran Lesson 1.pdf</span>
+              </div>
+              <i class="ri-arrow-right-line share-arrow text-white mobile-file-share-btn"></i>
+              <div class="student-selection-dropdown mobile-file-student-dropdown">
+                <!-- Student selection dropdown for files will be added here -->
+              </div>
+            </div>
+            <div class="file-item">
+              <div class="flex items-center">
+                <i class="ri-file-text-line text-white mr-2"></i>
+                <span class="text-white">Homework 2.docx</span>
+              </div>
+              <i class="ri-arrow-right-line share-arrow text-white mobile-file-share-btn"></i>
+              <div class="student-selection-dropdown mobile-file-student-dropdown">
+                <!-- Student selection dropdown for files will be added here -->
+              </div>
+            </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Dua 1.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">Dua 2.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+          <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="flex items-center">
+              <i class="ri-file-text-line text-white mr-2"></i>
+              <span class="text-white">dua 3.docx</span>
+            </div>
+            <i class="ri-arrow-right-line share-arrow text-white file-share-btn"></i>
+            <div class="student-selection-dropdown file-student-dropdown">
+              <!-- Student selection dropdown for files will be added here -->
+            </div>
+          </div>
+            <!-- More files would be listed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer - Used for mobile tabs -->
+  <footer id="tabFooter" class="footer text-white">
+    <div class="container mx-auto px-4 h-full">
+      <div class="footer-grid">
+        <!-- Students Tab Button -->
+        <div class="w-full text-center">
+          <a id="studentsTabBtn" href="#" class="tab-button text-nav">
+            <i class="ri-group-line"></i>
+            <span>Students</span>
+          </a>
+        </div>
+        
+        <!-- Conference Tab Button -->
+        <div class="w-full text-center">
+          <a id="conferenceTabBtn" href="#" class="tab-button active text-nav">
+            <i class="ri-vidicon-line"></i>
+            <span>Session</span>
+          </a>
+        </div>
+        
+        <!-- Messages Tab Button -->
+        <div class="w-full text-center">
+          <a id="messagesTabBtn" href="#" class="tab-button text-nav">
+            <i class="ri-chat-3-line"></i>
+            <span>Messages</span>
+          </a>
+        </div>
+        
+        <!-- Files Tab Button -->
+        <div class="w-full text-center">
+          <a id="filesTabBtn" href="#" class="tab-button text-nav">
+            <i class="ri-folder-2-line"></i>
+            <span>Files</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+   <script>
+    // Check screen size and show appropriate layout
+    function checkScreenSize() {
+      if (window.innerWidth >= 1024) {
+        document.getElementById('desktopView').style.display = 'grid';
+        document.getElementById('mobileView').style.display = 'none';
+        document.getElementById('tabFooter').style.display = 'none';
+      } else {
+        document.getElementById('desktopView').style.display = 'none';
+        document.getElementById('mobileView').style.display = 'block';
+        document.getElementById('tabFooter').style.display = 'block';
+        document.getElementById('conferenceTab').classList.add('active');
+        document.getElementById('conferenceTabBtn').classList.add('active');
+      }
+      renderStudentDropdowns(); // Re-render dropdowns on resize
+    }
+    
+    // Mobile tab switching
+    function setupMobileTabs() {
+      const tabs = ['students', 'conference', 'messages', 'files'];
+      
+      tabs.forEach(tab => {
+        const btn = document.getElementById(`${tab}TabBtn`);
+        const content = document.getElementById(`${tab}Tab`);
+        
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+          content.classList.add('active');
+          btn.classList.add('active');
+        });
+      });
+    }
+    
+    // Sample data for demonstration
+    const students = [
+      { id: 1, name: "Azfar", online: true, lastSeen: null },
+      { id: 2, name: "Huzaifa", online: true, lastSeen: null },
+      { id: 2, name: "Irha", online: true, lastSeen: null },
+      { id: 2, name: "Ayesha", online: true, lastSeen: null },
+      { id: 3, name: "Maria", online: false, lastSeen: "2h ago" },
+      { id: 4, name: "Mano", online: false, lastSeen: "yesterday" }
+    ];
+    
+    let selectedStudents = [1]; // Default selected student
+    
+    // Render student list
+    function renderStudentList() {
+      const desktopList = document.getElementById('studentsList');
+      const mobileList = document.getElementById('mobileStudentsList');
+      
+      desktopList.innerHTML = '';
+      mobileList.innerHTML = '';
+      
+      students.forEach(student => {
+        const isSelected = selectedStudents.includes(student.id);
+        const studentItem = document.createElement('div');
+        studentItem.className = `student-item ${isSelected ? 'selected' : ''}`;
+        studentItem.dataset.id = student.id;
+        
+        if (student.online) {
+          studentItem.innerHTML = `
+            <div class="flex items-center">
+              <span class="online-dot"></span>
+              <span class="text-white">${student.name}</span>
+            </div>
+          `;
+        } else {
+          studentItem.innerHTML = `
+            <div class="flex flex-col">
+              <span class="text-white">${student.name}</span>
+              <span class="offline-text">Last seen: ${student.lastSeen}</span>
+            </div>
+          `;
+        }
+        
+        studentItem.addEventListener('click', () => {
+          // For students panel, enforce single selection in all screen sizes
+          if (studentItem.closest('.students-section') || studentItem.closest('.mobile-students-list')) {
+            selectedStudents = [student.id];
+          } else {
+            // For dropdowns, allow multiple selection
+            const index = selectedStudents.indexOf(student.id);
+            if (index > -1) {
+              if (selectedStudents.length > 1) {
+                selectedStudents.splice(index, 1);
+              }
+            } else {
+              selectedStudents.push(student.id);
+            }
+          }
+          
+          renderStudentList();
+          updateCurrentStudentNames();
+          renderStudentDropdowns();
+          closeAllDropdowns();
+        });
+        
+        desktopList.appendChild(studentItem.cloneNode(true));
+        mobileList.appendChild(studentItem);
+      });
+    }
+    
+    function closeAllDropdowns() {
+      document.querySelectorAll('.student-selection-dropdown').forEach(d => {
+        d.style.display = 'none';
+      });
+    }
+    
+    function updateCurrentStudentNames() {
+      const selectedNames = students
+        .filter(student => selectedStudents.includes(student.id))
+        .map(student => student.name)
+        .join(', ');
+      
+      // Desktop
+      document.getElementById('currentStudentName').textContent = selectedNames;
+      document.getElementById('currentStudent').textContent = selectedNames;
+      document.getElementById('conferenceCurrentStudent').textContent = selectedNames;
+      document.getElementById('filesCurrentStudent').textContent = selectedNames;
+      
+      // Mobile
+      document.getElementById('mobileCurrentStudentName').textContent = selectedNames;
+      document.getElementById('mobileCurrentStudent').textContent = selectedNames;
+      document.getElementById('mobileConferenceCurrentStudent').textContent = selectedNames;
+      document.getElementById('mobileFilesCurrentStudent').textContent = selectedNames;
+    }
+    
+    function renderStudentDropdowns() {
+      // Message dropdowns
+      const messageDropdowns = [
+        { id: 'messageStudentDropdown', container: 'messageInputContainer', type: 'message' },
+        { id: 'mobileMessageStudentDropdown', container: 'mobileMessageInputContainer', type: 'message' }
+      ];
+      
+      messageDropdowns.forEach(({ id, container, type }) => {
+        const dropdown = document.getElementById(id);
+        const containerEl = document.getElementById(container);
+        
+        if (dropdown && containerEl) {
+          dropdown.className = `student-selection-dropdown ${type}-student-dropdown`;
+          dropdown.innerHTML = '';
+          
+          students.forEach(student => {
+            const isSelected = selectedStudents.includes(student.id);
+            const item = document.createElement('div');
+            item.className = `student-selection-item ${isSelected ? 'selected' : ''}`;
+            item.dataset.id = student.id;
+            item.innerHTML = `
+              <input type="checkbox" class="student-selection-checkbox" ${isSelected ? 'checked' : ''}>
+              <span class="text-white">${student.name}</span>
+            `;
+            
+            item.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const checkbox = item.querySelector('.student-selection-checkbox');
+              checkbox.checked = !checkbox.checked;
+              
+              const index = selectedStudents.indexOf(student.id);
+              if (checkbox.checked && index === -1) {
+                selectedStudents.push(student.id);
+              } else if (!checkbox.checked && index > -1) {
+                if (selectedStudents.length > 1) {
+                  selectedStudents.splice(index, 1);
+                }
+              }
+              
+              renderStudentList();
+              updateCurrentStudentNames();
+              renderStudentDropdowns();
+            });
+            
+            dropdown.appendChild(item);
+          });
+        }
+      });
+      
+      // File share dropdowns
+      document.querySelectorAll('.file-share-btn, .mobile-file-share-btn').forEach(button => {
+        const dropdown = button.nextElementSibling;
+        if (dropdown && dropdown.classList.contains('student-selection-dropdown')) {
+          dropdown.className = `student-selection-dropdown file-student-dropdown`;
+          dropdown.innerHTML = '';
+          
+          students.forEach(student => {
+            const isSelected = selectedStudents.includes(student.id);
+            const item = document.createElement('div');
+            item.className = `student-selection-item ${isSelected ? 'selected' : ''}`;
+            item.dataset.id = student.id;
+            item.innerHTML = `
+              <input type="checkbox" class="student-selection-checkbox" ${isSelected ? 'checked' : ''}>
+              <span class="text-white">${student.name}</span>
+            `;
+            
+            item.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const checkbox = item.querySelector('.student-selection-checkbox');
+              checkbox.checked = !checkbox.checked;
+              
+              const index = selectedStudents.indexOf(student.id);
+              if (checkbox.checked && index === -1) {
+                selectedStudents.push(student.id);
+              } else if (!checkbox.checked && index > -1) {
+                if (selectedStudents.length > 1) {
+                  selectedStudents.splice(index, 1);
+                }
+              }
+              
+              renderStudentList();
+              updateCurrentStudentNames();
+              renderStudentDropdowns();
+            });
+            
+            dropdown.appendChild(item);
+          });
+        }
+      });
+    }
+    
+    function setupStudentDropdowns() {
+      // Message dropdowns
+      const messageSelectBtns = [
+        { btn: 'messageSelectBtn', dropdown: 'messageStudentDropdown' },
+        { btn: 'mobileMessageSelectBtn', dropdown: 'mobileMessageStudentDropdown' }
+      ];
+      
+      messageSelectBtns.forEach(({ btn, dropdown }) => {
+        const button = document.getElementById(btn);
+        const dropdownElement = document.getElementById(dropdown);
+        
+        if (button && dropdownElement) {
+          button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeAllDropdowns();
+            dropdownElement.style.display = dropdownElement.style.display === 'block' ? 'none' : 'block';
+          });
+        }
+      });
+      
+      // File share dropdowns
+      document.querySelectorAll('.file-share-btn, .mobile-file-share-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const dropdown = button.nextElementSibling;
+          if (dropdown) {
+            closeAllDropdowns();
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+          }
+        });
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.student-selection-dropdown') && 
+            !e.target.closest('.select-button') && 
+            !e.target.closest('.file-share-btn')) {
+          closeAllDropdowns();
+        }
+      });
+    }
+    
+    function setupMessageButtons() {
+      const sendButtons = [
+        { btn: 'messageSendBtn', input: 'messageInput' },
+        { btn: 'mobileMessageSendBtn', input: 'mobileMessageInput' }
+      ];
+      
+      sendButtons.forEach(({ btn, input }) => {
+        const button = document.getElementById(btn);
+        const inputField = document.getElementById(input);
+        
+        if (button && inputField) {
+          button.addEventListener('click', () => {
+            sendMessage(inputField.value);
+            inputField.value = '';
+            closeAllDropdowns();
+          });
+          
+          inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              sendMessage(inputField.value);
+              inputField.value = '';
+              closeAllDropdowns();
+            }
+          });
+        }
+      });
+    }
+    
+    function sendMessage(text) {
+      if (!text.trim()) return;
+      
+      const messageHistory = document.getElementById('messageHistory');
+      const mobileMessageHistory = document.getElementById('mobileMessageHistory');
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = 'bg-black bg-opacity-30 text-white p-2 rounded max-w-xs ml-auto';
+      messageElement.textContent = text;
+      
+      messageHistory.appendChild(messageElement);
+      mobileMessageHistory.appendChild(messageElement.cloneNode(true));
+      
+      messageHistory.scrollTop = messageHistory.scrollHeight;
+      mobileMessageHistory.scrollTop = mobileMessageHistory.scrollHeight;
+    }
+    
+    function startSessionTimer() {
+      const timerDisplay = document.getElementById('timerDisplay');
+      const sessionTimer = document.getElementById('sessionTimer');
+      
+      let seconds = 0;
+      sessionTimer.classList.remove('hidden');
+      
+      setInterval(() => {
+        seconds++;
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+    
+    window.addEventListener('load', () => {
+      checkScreenSize();
+      setupMobileTabs();
+      renderStudentList();
+      updateCurrentStudentNames();
+      renderStudentDropdowns();
+      setupStudentDropdowns();
+      setupMessageButtons();
+      startSessionTimer();
+    });
+    
+    window.addEventListener('resize', checkScreenSize);
+  </script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Huda Quran Academy - Teacher Panel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    /* Reuse all base styles from student panel */
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      position: relative;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(90deg, rgba(18, 18, 18, 0.70) 25%, rgba(18, 18, 18, 0.5) 50%, rgba(18, 18, 18, 0.6) 100%), url('images/13.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: -1;
+    }
+    
+    .arabic {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+    }
+    
+    .header {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+      height: 60px;
+    }
+    
+    /* Text size classes */
+    .text-logo-arabic {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    
+    .text-logo-english {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .text-heading {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    
+    .text-subheading {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    .text-button {
+      font-size: 0.875rem;
+    }
+    
+    .text-nav {
+      font-size: 0.75rem;
+    }
+    
+    /* Responsive font sizes */
+    @media (min-width: 480px) {
+      html { font-size: 16px; }
+      .text-logo-arabic { font-size: 1.25rem; }
+      .text-logo-english { font-size: 0.90rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.125rem; }
+      .text-button { font-size: 1rem; }
+      .text-nav { font-size: 0.875rem; }
+    }
+    
+    @media (min-width: 768px) {
+      html { font-size: 18px; }
+      .text-logo-arabic { font-size: 1.75rem; }
+      .text-logo-english { font-size: 1.25rem; }
+      .text-heading { font-size: 2rem; }
+      .text-subheading { font-size: 1.25rem; }
+      .text-button { font-size: 1.125rem; }
+      .text-nav { font-size: 1rem; }
+    }
+    
+    @media (min-width: 1024px) {
+      html { font-size: 20px; }
+      .text-logo-arabic { font-size: 2rem; }
+      .text-logo-english { font-size: 1.5rem; }
+      .text-heading { font-size: 1.75rem; }
+      .text-subheading { font-size: 1.375rem; }
+      .text-button { font-size: 1.25rem; }
+      .text-nav { font-size: 1.125rem; }
+    }
+    
+    /* Panel Styles */
+    .panel-section {
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    
+    /* Desktop Layout - Modified for 4 sections */
+    @media (min-width: 1024px) {
+      .desktop-layout {
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        grid-template-rows: 70% 30%;
+        height: calc(100vh);
+        padding-top: 90px;
+        gap: 10px;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+      }
+      
+      /* Left Panel - Students List */
+      .students-section {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Middle Panel - Jitsi Meet */
+      .conference-section {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Right Panel - Messages */
+      .messages-section {
+        grid-column: 3;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Bottom Panel - Files */
+      .files-section {
+        grid-column: 2 / span 2;
+        grid-row: 2;
+      }
+      
+      .conference-content {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .messages-content {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      
+      .students-content {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      
+      .footer {
+        display: none;
+      }
+    }
+    
+    /* Mobile Layout */
+    @media (max-width: 1023px) {
+      .desktop-layout {
+        display: none;
+      }
+      
+      .mobile-tab {
+        display: none;
+        height: calc(100vh - 90px);
+        overflow-y: auto;
+        padding: 10px;
+      }
+      
+      .mobile-tab.active {
+        display: block;
+      }
+      
+      .mobile-tabs {
+        padding-top: 50px;
+        padding-bottom: 40px;
+      }
+      
+      .mobile-content {
+        height: calc(100% - 3rem);
+        position: relative;
+      }
+      
+      .mobile-messages-container {
+        height: calc(100% - 3.5rem);
+        overflow-y: auto;
+      }
+      
+      .mobile-message-input {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 20px);
+      }
+      
+      .mobile-students-list {
+        height: 100%;
+        overflow-y: auto;
+      }
+    }
+    
+    /* Footer styling */
+    .footer {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-top: 3px solid rgba(255, 255, 255, 0.1);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      z-index: 10;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      justify-items: center;
+      gap: 0.5rem;
+      height: 100%;
+    }
+    
+    .tab-button {
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+    
+    .tab-button.active {
+      color: #d4af37;
+      transform: translateY(-3px);
+    }
+    
+    .tab-button i {
+      margin-bottom: 0.1rem;
+    }
+    
+    /* Student list specific styles */
+    .student-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .student-item:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .student-item.selected {
+      background-color: rgba(212, 175, 55, 0.2);
+    }
+    
+    .online-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #10b981;
+      margin-right: 8px;
+    }
+    
+    .offline-text {
+      color: #9ca3af;
+      font-size: 0.75rem;
+    }
+    
+    /* File sharing specific styles */
+    .file-item {
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .file-item.shared {
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    
+    .share-arrow {
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    
+    .share-arrow:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Same header as teacher panel with back arrow -->
+  <header class="header fixed w-full top-0 z-50">
+    <div class="container mx-auto px-4 w-full flex items-center justify-between">
+      <a href="teacher_landing.html" class="text-white">
+        <i class="ri-arrow-left-line text-xl"></i>
+      </a>
+      <div class="flex items-center space-x-4">
+        <span class="text-white arabic text-logo-arabic">الهدى</span>
+        <span class="text-white text-logo-english">Manage Students</span>
+      </div>
+      <div class="w-6"></div> <!-- Spacer for balance -->
+    </div>
+  </header>
+
+  <main class="flex-grow pt-20 pb-4 px-4">
+    <!-- Add Student Button -->
+    <button id="addStudentBtn" class="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg mb-4 flex items-center">
+      <i class="ri-user-add-line mr-2"></i> Add New Student
+    </button>
+
+    <!-- Students List -->
+    <div class="panel-section p-4">
+      <div class="overflow-y-auto max-h-[calc(100vh-180px)]">
+        <div class="space-y-2">
+          <!-- Student Item Example -->
+          <div class="student-item flex justify-between items-center p-3">
+            <div>
+              <div class="text-white font-medium">Ahmed Ali</div>
+              <div class="text-gray-400 text-sm">ahmed@example.com</div>
+            </div>
+            <button class="text-red-400 hover:text-red-300 p-1">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+          </div>
+          
+          <!-- More students would appear here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Student Modal (Hidden by default) -->
+    <div id="addStudentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+      <div class="panel-section p-6 max-w-md w-full">
+        <h3 class="text-white text-heading mb-4">Add Student</h3>
+        <div class="space-y-4">
+          <input type="text" placeholder="Full Name" class="w-full p-2 bg-black bg-opacity-30 text-white rounded">
+          <input type="text" placeholder="Email/Phone" class="w-full p-2 bg-black bg-opacity-30 text-white rounded">
+          <div class="flex space-x-2">
+            <button class="bg-gray-600 text-white py-2 px-4 rounded-lg flex-1">Cancel</button>
+            <button class="bg-amber-600 text-white py-2 px-4 rounded-lg flex-1">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Toggle modal
+    document.getElementById('addStudentBtn').addEventListener('click', () => {
+      document.getElementById('addStudentModal').classList.remove('hidden');
+    });
+    
+    // Close modal
+    document.querySelectorAll('#addStudentModal button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('addStudentModal').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
